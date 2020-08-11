@@ -1,6 +1,6 @@
 import math
 import numpy as np
-
+from utils import *
 import tensorflow as tf
 
 def get_model(inp, name):
@@ -39,7 +39,7 @@ def cnn_v1(inp):
 
     out = conv_layer(x, [1, 1, channel[-1], 1], 
                       [1,1,1,1], pad_pattern, dilations = [1,1,1,1], 
-                      is_wn=False, name='c%d'%(i))
+                      is_wn=False, name='c_out')
     out = tf.reshape(out, [-1, inp.get_shape().as_list()[1]])
 
     return out
@@ -58,12 +58,12 @@ def cnn_v2(inp):
     # c0
     x = conv_layer(x, [kernel,1,1,channel], 
                            stride, pad_pattern, dilations = dilation, 
-                           is_wn=False, name='c%d'%(0))
+                           name='c%d'%(0))
 
     for i in range(1, block+1):
         x = identity_block(x, [kernel,1,channel,channel], 
                            stride, pad_pattern, dilations = dilation, 
-                           is_wn=False, name='block%d'%(i))
+                           name='block%d'%(i))
 
 
     # output layer

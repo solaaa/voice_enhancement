@@ -78,3 +78,13 @@ def fc_layer_chip(x, last_layer_element_count, unit_num, is_wn=False, name='fc')
     fc_out = tf.matmul(x, w) + b
     return fc_out
 
+
+def identity_block(inp, kernel_size, stride, pad_pattern, dilations, name='b'):
+    x = conv_layer(inp, kernel_size, stride, pad_pattern, dilations, name='_c1')
+    x = tf.nn.relu(x)
+    x = conv_layer(inp, kernel_size, stride, pad_pattern, dilations, name='_c2')
+
+    x = tf.add(x, inp)
+    x = tf.nn.relu(x)
+    return x
+
